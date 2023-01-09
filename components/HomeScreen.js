@@ -2,6 +2,7 @@ import React from 'react'
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react';
 import useSpotify from '../hooks/useSpotify';
+import { setTimeout } from "timers-promises";
 
 function HomeScreen() {
     const spotifyApi = useSpotify();
@@ -11,6 +12,7 @@ function HomeScreen() {
     const [cloneUri, setCloneUri] = useState([]);
     var trackUriArray = [];
     const [uriArray, setUriArray] = useState([]);
+    const delay = ms => new Promise(res => setTimeout(res, ms));
 
     useEffect(() => {
         if (spotifyApi.getAccessToken) {
@@ -33,28 +35,40 @@ function HomeScreen() {
                 for (let i = 0; i < data.body.items.length; i++) {
                     trackUriArray.push(data.body.items[i].track.uri);
                 }
+                setUriArray(trackUriArray);
             }, (error) => {
                 console.log('There was an error in getting the songs from the playlist')
             }
             );
         }
     }, [session, spotifyApi])
-    function makeClonePlaylist() {
-        spotifyApi.createPlaylist('Discover Weekly Clone', { 'public': true })
+   function makeClonePlaylist() {
+        var temp = getMonday(new Date()).toString();
+        var temp2 = temp.split(/[ ,]+/);
+        console.log(temp2);
+        var playlistName = "Discover Weekly (" + temp2[0] + " " + temp2[1] + " " + temp2[2] + ")";
+        spotifyApi.createPlaylist(playlistName, { 'public': true })
             .then(function (data) {
                 var tempUri = data.body.uri;
                 var strArr = tempUri.split(/\s*(?:\bas\b|:)\s*/);
                 setCloneUri(strArr[2])
-            }, function (err) {
-                console.log('Something went wrong!', err);
-            });
-        spotifyApi.addTracksToPlaylist(cloneUri, ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh", "spotify:track:1301WleyT98MSxVHPZCA6M"])
+                console.log(uriArray)
+                spotifyApi.addTracksToPlaylist(strArr[2], uriArray)
             .then(function (data) {
                 console.log('Added tracks to playlist!');
             }, function (err) {
                 console.log('Something went wrong!', err);
             });
+            }, function (err) {
+                console.log('Something went wrong!', err);
+            });
     }
+    function getMonday(d) {
+        d = new Date(d);
+        var day = d.getDay(),
+            diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+        return new Date(d.setDate(diff));
+      }
     return (
         <div className='h-screen flex flex-col space-y-8 justify-center 
         text-center overflow-hidden'>
