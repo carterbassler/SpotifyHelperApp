@@ -8,6 +8,9 @@ function HomeScreen() {
     const { data: session } = useSession();
     const [uri, setUri] = useState([]);
     const [tracks, setTracks] = useState([]);
+    const [cloneUri, setCloneUri] = useState([]);
+    var trackUriArray = [];
+    const [uriArray, setUriArray] = useState([]);
 
     useEffect(() => {
         if (spotifyApi.getAccessToken) {
@@ -19,16 +22,39 @@ function HomeScreen() {
                         setUri(strArr[2]);
                     }
                 }
+            }, (error) => {
+                console.log('There was an error in Retrieving The Playlist')
             })
             spotifyApi.getPlaylistTracks(uri, {
                 offset: 0,
                 limit: 30,
                 fields: 'items'
             }).then((data) => {
-                setTracks(data.body.items)
-            });
+                for (let i = 0; i < data.body.items.length; i++) {
+                    trackUriArray.push(data.body.items[i].track.uri);
+                }
+            }, (error) => {
+                console.log('There was an error in getting the songs from the playlist')
+            }
+            );
         }
     }, [session, spotifyApi])
+    function makeClonePlaylist() {
+        spotifyApi.createPlaylist('Discover Weekly Clone', { 'public': true })
+            .then(function (data) {
+                var tempUri = data.body.uri;
+                var strArr = tempUri.split(/\s*(?:\bas\b|:)\s*/);
+                setCloneUri(strArr[2])
+            }, function (err) {
+                console.log('Something went wrong!', err);
+            });
+        spotifyApi.addTracksToPlaylist(cloneUri, ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh", "spotify:track:1301WleyT98MSxVHPZCA6M"])
+            .then(function (data) {
+                console.log('Added tracks to playlist!');
+            }, function (err) {
+                console.log('Something went wrong!', err);
+            });
+    }
     return (
         <div className='h-screen flex flex-col space-y-8 justify-center 
         text-center overflow-hidden'>
@@ -45,7 +71,7 @@ function HomeScreen() {
                     Welcome {session?.user.name}
                 </h2>
             </div>
-            <button className='bg-[#18D680] text-white p-5 rounded-full'>Save Discover Weekly</button>
+            <button onClick={() => makeClonePlaylist()} className='bg-[#18D680] text-white p-5 rounded-full'>Save Discover Weekly</button>
         </div>
     )
 }
