@@ -12,7 +12,6 @@ function HomeScreen() {
     const [cloneUri, setCloneUri] = useState([]);
     var trackUriArray = [];
     const [uriArray, setUriArray] = useState([]);
-    const delay = ms => new Promise(res => setTimeout(res, ms));
 
     useEffect(() => {
         if (spotifyApi.getAccessToken) {
@@ -42,10 +41,9 @@ function HomeScreen() {
             );
         }
     }, [session, spotifyApi])
-   function makeClonePlaylist() {
+    function makeClonePlaylist() {
         var temp = getMonday(new Date()).toString();
         var temp2 = temp.split(/[ ,]+/);
-        console.log(temp2);
         var playlistName = "Discover Weekly (" + temp2[0] + " " + temp2[1] + " " + temp2[2] + ")";
         spotifyApi.createPlaylist(playlistName, { 'public': true })
             .then(function (data) {
@@ -54,11 +52,11 @@ function HomeScreen() {
                 setCloneUri(strArr[2])
                 console.log(uriArray)
                 spotifyApi.addTracksToPlaylist(strArr[2], uriArray)
-            .then(function (data) {
-                console.log('Added tracks to playlist!');
-            }, function (err) {
-                console.log('Something went wrong!', err);
-            });
+                    .then(function (data) {
+                        console.log('Added tracks to playlist!');
+                    }, function (err) {
+                        console.log('Something went wrong!', err);
+                    });
             }, function (err) {
                 console.log('Something went wrong!', err);
             });
@@ -66,12 +64,12 @@ function HomeScreen() {
     function getMonday(d) {
         d = new Date(d);
         var day = d.getDay(),
-            diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+            diff = d.getDate() - day + (day == 0 ? -6 : 1);
         return new Date(d.setDate(diff));
-      }
+    }
     return (
         <div className='h-screen flex flex-col space-y-8 justify-center 
-        text-center overflow-hidden'>
+        text-center overflow-hidden mx-auto'>
             <div className="relative h-32 w-32 mx-auto">
                 <img className='object-contain rounded-full'
                     layout='fill'
@@ -85,7 +83,9 @@ function HomeScreen() {
                     Welcome {session?.user.name}
                 </h2>
             </div>
-            <button onClick={() => makeClonePlaylist()} className='bg-[#18D680] text-white p-5 rounded-full'>Save Discover Weekly</button>
+            <div>
+                <button onClick={() => makeClonePlaylist()} className='bg-[#18D680] hover:bg-[#084c2d] hover:-translate-y-1 ease-in-out duration-200 text-white p-5 rounded-full'>Save Discover Weekly</button>
+            </div>
         </div>
     )
 }
