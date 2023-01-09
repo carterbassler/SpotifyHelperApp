@@ -6,26 +6,29 @@ import useSpotify from '../hooks/useSpotify';
 function HomeScreen() {
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
-    var DiscoverWeekly = "";
-    var finalUri = "";
+    const [uri, setUri] = useState([]);
+    const [tracks, setTracks] = useState([]);
 
-    var temp = getDiscoverWeekly();
-    console.log(temp);
-    function getDiscoverWeekly() {
-        spotifyApi.getUserPlaylists()
-        .then(
-            function (data) {
-            for (let i = 0; i < data.body.items.length; i++) {
-                if (data.body.items[i].name === "Discover Weekly") {
-                    DiscoverWeekly = data.body.items[i].uri;
-                    var strArr = DiscoverWeekly.split(/\s*(?:\bas\b|:)\s*/);
-                    finalUri = strArr[2];
-                    console.log("RUNNING");
+    useEffect(() => {
+        if (spotifyApi.getAccessToken) {
+            spotifyApi.getUserPlaylists().then((data) => {
+                for (let i = 0; i < data.body.items.length; i++) {
+                    if (data.body.items[i].name === "Discover Weekly") {
+                        var DiscoverWeekly = data.body.items[i].uri;
+                        var strArr = DiscoverWeekly.split(/\s*(?:\bas\b|:)\s*/);
+                        setUri(strArr[2]);
+                    }
                 }
-            }
-        });
-        return finalUri;
-    }
+            })
+            spotifyApi.getPlaylistTracks(uri, {
+                offset: 0,
+                limit: 30,
+                fields: 'items'
+            }).then((data) => {
+                setTracks(data.body.items)
+            });
+        }
+    }, [session, spotifyApi])
     return (
         <div className='h-screen flex flex-col space-y-8 justify-center 
         text-center overflow-hidden'>
