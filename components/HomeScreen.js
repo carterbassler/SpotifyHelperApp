@@ -86,7 +86,6 @@ function HomeScreen() {
             <div>
                 <button onClick={() => makeClonePlaylist()} className='bg-[#18D680] hover:bg-[#084c2d] hover:-translate-y-1 ease-in-out duration-200 text-white p-5 rounded-full'>Save Discover Weekly</button>
             </div>
-            <a>Test</a>
         </div>
     )
 }
