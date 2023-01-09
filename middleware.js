@@ -16,3 +16,7 @@ export async function middleware(req) {
         return NextResponse.redirect(url)
     }
 }
+
+export const config = {
+  matcher: "/",
+  };
