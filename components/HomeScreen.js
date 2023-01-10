@@ -22,7 +22,7 @@ function HomeScreen() {
                         var DiscoverWeekly = data.body.items[i].uri;
                         var strArr = DiscoverWeekly.split(/\s*(?:\bas\b|:)\s*/);
                         setUri(strArr[2]);
-                        spotifyApi.getPlaylistTracks(uri, {
+                        spotifyApi.getPlaylistTracks(strArr[2], {
                             offset: 0,
                             limit: 30,
                             fields: 'items'
