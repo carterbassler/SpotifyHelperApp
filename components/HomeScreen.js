@@ -22,25 +22,25 @@ function HomeScreen() {
                         var DiscoverWeekly = data.body.items[i].uri;
                         var strArr = DiscoverWeekly.split(/\s*(?:\bas\b|:)\s*/);
                         setUri(strArr[2]);
+                        spotifyApi.getPlaylistTracks(uri, {
+                            offset: 0,
+                            limit: 30,
+                            fields: 'items'
+                        }).then((data) => {
+                            console.log(data.body.items);
+                            for (let i = 0; i < data.body.items.length; i++) {
+                                trackUriArray.push(data.body.items[i].track.uri);
+                            }
+                            setUriArray(trackUriArray);
+                        }, (error) => {
+                            console.log('There was an error in getting the songs from the playlist')
+                        }
+                        );
                     }
                 }
             }, (error) => {
                 console.log('There was an error in Retrieving The Playlist')
             })
-            spotifyApi.getPlaylistTracks(uri, {
-                offset: 0,
-                limit: 30,
-                fields: 'items'
-            }).then((data) => {
-                console.log(data.body.items);
-                for (let i = 0; i < data.body.items.length; i++) {
-                    trackUriArray.push(data.body.items[i].track.uri);
-                }
-                setUriArray(trackUriArray);
-            }, (error) => {
-                console.log('There was an error in getting the songs from the playlist')
-            }
-            );
         }
     }, [session, spotifyApi])
     function makeClonePlaylist() {
