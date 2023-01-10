@@ -70,23 +70,35 @@ function HomeScreen() {
         return new Date(d.setDate(diff));
     }
     return (
-        <div className='h-screen flex flex-col space-y-8 justify-center 
-        text-center overflow-hidden mx-auto'>
-            <div className="relative h-32 w-32 mx-auto">
-                <img className='object-contain rounded-full'
-                    layout='fill'
-                    objectFit='contain'
-                    src={session?.user.image}
-                    alt={''}
-                />
-            </div>
-            <div className='z-20'>
-                <h2 className='text-xl text-black pb-2'>
-                    Welcome {session?.user.name}
-                </h2>
-            </div>
-            <div>
-                <button onClick={() => makeClonePlaylist()} className='bg-[#18D680] hover:bg-[#084c2d] hover:-translate-y-1 ease-in-out duration-200 text-white p-5 rounded-full'>Save Discover Weekly</button>
+        <div class="bg-[#1A1A1D] flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+            <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+                        Save Discover Weekly
+                    </h1>
+                    <div className="relative h-32 w-32 mx-auto">
+                        <img className='object-contain rounded-full'
+                            layout='fill'
+                            objectFit='contain'
+                            src={session?.user.image}
+                            alt={''}
+                        />
+                    </div>
+                    <div className='z-20'>
+                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+                            Welcome {session?.user.name}
+                        </h1>
+                        <h1 class="text-lg font-bold leading-tight tracking-tight text-gray-900 dark:text-white text-center">
+                            DISCLAIMER:
+                        </h1>
+                        <h1 class="text-md font-bold leading-tight tracking-tight text-gray-900 dark:text-white text-center">
+                            You must have your "Discover Weekly" in your Liked Playlists
+                        </h1>
+                    </div>
+                    <div className='flex items-center justify-center'>
+                        <button onClick={() => makeClonePlaylist()} className='bg-[#18D680] hover:bg-[#084c2d] hover:-translate-y-1 ease-in-out duration-200 text-white p-5 rounded-full'>Save Discover Weekly</button>
+                    </div>
+                </div>
             </div>
         </div>
     )
