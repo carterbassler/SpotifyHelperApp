@@ -17,6 +17,7 @@ function HomeScreen() {
         if (spotifyApi.getAccessToken) {
             spotifyApi.getUserPlaylists().then((data) => {
                 for (let i = 0; i < data.body.items.length; i++) {
+                    console.log(data.body.items[i].name);
                     if (data.body.items[i].name === "Discover Weekly") {
                         var DiscoverWeekly = data.body.items[i].uri;
                         var strArr = DiscoverWeekly.split(/\s*(?:\bas\b|:)\s*/);
@@ -31,6 +32,7 @@ function HomeScreen() {
                 limit: 30,
                 fields: 'items'
             }).then((data) => {
+                console.log(data.body.items);
                 for (let i = 0; i < data.body.items.length; i++) {
                     trackUriArray.push(data.body.items[i].track.uri);
                 }
