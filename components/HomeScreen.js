@@ -2,7 +2,6 @@ import React from 'react'
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react';
 import useSpotify from '../hooks/useSpotify';
-import { setTimeout } from "timers-promises";
 
 function HomeScreen() {
     const spotifyApi = useSpotify();
@@ -62,6 +61,7 @@ function HomeScreen() {
             }, function (err) {
                 console.log('Something went wrong!', err);
             });
+    alert("New Playlist Saved!");
     }
     function getMonday(d) {
         d = new Date(d);
@@ -73,6 +73,9 @@ function HomeScreen() {
         <div class="bg-[#1A1A1D] flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
             <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <div className='flex items-center justify-left'>
+                        <button className='bg-[#18D680] hover:bg-[#084c2d] hover:-translate-y-1 ease-in-out duration-200 text-white p-3 rounded-full text-sm'>Log Out</button>
+                    </div>
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
                         Save Discover Weekly
                     </h1>
