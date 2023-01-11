@@ -47,24 +47,24 @@ function HomeScreen() {
     }, [session, spotifyApi])
     function makeClonePlaylist() {
         setButtonPopup(true);
-        // var temp = getMonday(new Date()).toString();
-        // var temp2 = temp.split(/[ ,]+/);
-        // var playlistName = "Discover Weekly (" + temp2[0] + " " + temp2[1] + " " + temp2[2] + ")";
-        // spotifyApi.createPlaylist(playlistName, { 'public': true })
-        //     .then(function (data) {
-        //         var tempUri = data.body.uri;
-        //         var strArr = tempUri.split(/\s*(?:\bas\b|:)\s*/);
-        //         setCloneUri(strArr[2])
-        //         console.log(uriArray)
-        //         spotifyApi.addTracksToPlaylist(strArr[2], uriArray)
-        //             .then(function (data) {
-        //                 console.log('Added tracks to playlist!');
-        //             }, function (err) {
-        //                 console.log('Something went wrong!', err);
-        //             });
-        //     }, function (err) {
-        //         console.log('Something went wrong!', err);
-        //     });
+        var temp = getMonday(new Date()).toString();
+        var temp2 = temp.split(/[ ,]+/);
+        var playlistName = "Discover Weekly (" + temp2[0] + " " + temp2[1] + " " + temp2[2] + ")";
+        spotifyApi.createPlaylist(playlistName, { 'public': true })
+            .then(function (data) {
+                var tempUri = data.body.uri;
+                var strArr = tempUri.split(/\s*(?:\bas\b|:)\s*/);
+                setCloneUri(strArr[2])
+                console.log(uriArray)
+                spotifyApi.addTracksToPlaylist(strArr[2], uriArray)
+                    .then(function (data) {
+                        console.log('Added tracks to playlist!');
+                    }, function (err) {
+                        console.log('Something went wrong!', err);
+                    });
+            }, function (err) {
+                console.log('Something went wrong!', err);
+            });
     }
     function getMonday(d) {
         d = new Date(d);
