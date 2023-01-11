@@ -10,7 +10,10 @@
     "next-auth": "^4.18.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-responsive-modal": "^6.4.1",
+    "react-styled-components": "^0.1.11",
     "spotify-web-api-node": "^5.0.2",
+    "styled-components": "^5.3.6",
     "timers-promises": "^1.0.1"
   },
   "devDependencies": {

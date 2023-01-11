@@ -5,7 +5,7 @@ import HomeScreen from '../components/HomeScreen';
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <div className='bg-[#1A1A1D]'>
       <HomeScreen />
     </div>
   )
