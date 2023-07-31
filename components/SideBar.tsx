@@ -45,7 +45,7 @@ function Sidebar({}: Props) {
       />
     </div>
     <div className="p-5">
-      <button onClick={() => signOut()}>
+      <button onClick={() => signOut({ callbackUrl : '/login'})}>
       <SideBarIcon to={""} text={"Logout"} icon={<FiLogOut size="32" />} />
       </button>
     </div>

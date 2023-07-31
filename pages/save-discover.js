@@ -11,11 +11,11 @@ function HomeScreen() {
   const [buttonPopup, setButtonPopup] = useState(false);
   return (
     <div class="bg-[#1A1A1D] flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-      <h1 className="text-5xl font-extrabold tracking-tight text-white p-10">
+      <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white p-5 md:p-10">
         Save Discover Weekly
       </h1>
       <div className="w-4/5">
-        <h2 className="text-xl text-white p-5 text-center">
+        <h2 className="text-sm md:text-xl text-white p-5 text-center">
           Are you loving your Spotify Discover Weekly but can't always get
           through all the songs before it refreshes each week? Don't worry,
           we've got you covered. By clicking the "Auto-Save Discover Weekly"

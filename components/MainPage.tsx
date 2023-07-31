@@ -18,7 +18,7 @@ function MainPage({}: Props) {
       <h1 className="px-5 text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
         Carter's <span className="text-green-500">Music Helper</span> App
       </h1>
-      <h1 className='text-5xl lg:text-6xl font-semibold scroll-px-10 text-white'>
+      <h1 className='text-3xl md:text-5xl lg:text-6xl font-semibold scroll-px-10 text-white'>
                     <span>{text}</span>
                     <Cursor cursorColor='#22C55E' />
                 </h1>

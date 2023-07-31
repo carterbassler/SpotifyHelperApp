@@ -20,14 +20,14 @@ interface Album {
 }
 
 interface Artist {
-  name : string
+  name: string;
 }
 
 interface Track {
   album: Album;
   name: string;
   duration_ms: string;
-  artists : Artist[]
+  artists: Artist[];
 }
 
 interface SpotifyResponseArtists {
@@ -45,13 +45,13 @@ interface SpotifyResponseTracks {
 function formatDuration(durationMs: number): string {
   // Convert duration from milliseconds to seconds
   let totalSeconds = Math.floor(durationMs / 1000);
-  
+
   // Calculate the number of minutes and remaining seconds
   let minutes = Math.floor(totalSeconds / 60);
   let seconds = totalSeconds % 60;
 
   // Convert the seconds to a string, padding with a leading zero if necessary
-  let secondsStr = seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+  let secondsStr = seconds < 10 ? "0" + seconds.toString() : seconds.toString();
 
   return `${minutes}:${secondsStr}`;
 }
@@ -86,7 +86,7 @@ function Wrapped({}: Props) {
     }
   }, [session, spotifyApi]);
   return (
-    <div className="flex flex-col h-screen bg-[#1A1A1D] justify-start items-center overflow-y-scroll scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-green-500 pt-10">
+    <div className="flex flex-col h-screen bg-[#1A1A1D] justify-start items-center overflow-y-scroll md:scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-green-500 pt-10">
       <div className="flex justify-center items-center w-4/5 text-white py-8">
         <h2 className="text-2xl md:text-3xl font-bold mr-auto ml-4">
           Anytime Wrapped
@@ -110,13 +110,13 @@ function Wrapped({}: Props) {
       </div>
       <div className="flex justify-center">
         {view === "artists" ? (
-          <div className="grid grid-cols-4 gap-20 mx-auto">
+          <div className="grid grid-cols-4 gap-10 md:gap-20 mx-auto">
             {topArtists.map((artist, index) => (
               <div key={index}>
                 <img
                   src={artist.images[0].url}
                   alt={artist.name}
-                  className="w-48 h-48 rounded-full hover:rounded-3xl transition-all ease-in duration-300 cursor-pointer"
+                  className="w-24 h-24 md:w-48 md:h-48 rounded-full hover:rounded-3xl transition-all ease-in duration-300 cursor-pointer"
                 />
                 <p className="text-white text-center py-2">{artist.name}</p>
               </div>
@@ -125,24 +125,28 @@ function Wrapped({}: Props) {
         ) : (
           <div className="flex flex-col">
             {topTracks.map((track, index) => (
-              <div key={index} className="flex flex-row">
-                <img
-                  src={track.album.images[0].url}
-                  alt={track.name}
-                  className="w-32 h-32 mx-5"
-                />
-                <div className="flex flex-col">
-                  <h2 className="text-white">{track.name}</h2>
-                  <div className="flex flex-row">
-                    <h2 className="text-white">{track.artists[0].name}</h2>
-                    <h2>.</h2>
-                    <h2 className="text-white">{track.album.name}</h2>
-                  </div>
-                  <div>
-                    <h2 className="text-white">{formatDuration(Number(track.duration_ms))}</h2>
+              <div key={index} className="flex justify-center w-full pb-2">
+              <div className="flex justify-between items-center w-4/5">
+                <div className="flex items-center">
+                  <img
+                    src={track.album.images[0].url}
+                    alt={track.name}
+                    className="w-24 h-24 md:w-32 md:h-32 mx-5"
+                  />
+                  <div className="flex flex-col">
+                    <h2 className="text-sm md:text-base text-white">{track.name}</h2>
+                    <div className="flex flex-row">
+                      <h2 className="text-sm md:text-base text-white">{track.artists[0].name}</h2>
+                      <h2>.</h2>
+                      <h2 className="text-sm md:text-base text-white">{track.album.name}</h2>
                     </div>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <h2 className="text-sm md:text-base text-white">{formatDuration(Number(track.duration_ms))}</h2>
                 </div>
               </div>
+            </div>
             ))}
           </div>
         )}

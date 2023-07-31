@@ -71,12 +71,12 @@ function Profile({}: Props) {
     }
   }, [session, spotifyApi]);
   return (
-    <div className="flex flex-col h-screen items-center overflow-y-scroll scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-green-500 pt-10 bg-[#1A1A1D]">
+    <div className="flex flex-col h-screen items-center overflow-y-scroll md:scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-green-500 pt-10 bg-[#1A1A1D]">
       <h1 className="text-3xl text-white p-5">Profile</h1>
       {profileData.images[1] && (
         <img
           src={profileData.images[1].url}
-          className="w-48 h-48 rounded-full"
+          className="w-32 h-32 md:w-48 md:h-48 rounded-full"
         />
       )}
       <div className="flex flex-row items-center justify-center text-center">
@@ -91,19 +91,19 @@ function Profile({}: Props) {
       </div>
       <h2 className="text-2xl text-white p-5">Playlists</h2>
       <div className="flex justify-center">
-          <div className="grid grid-cols-4 gap-10 mx-auto">
-            {playlistData.map((playlist, index) => (
-              <div key={index}>
-                <img
-                  src={playlist.images[0].url}
-                  alt={playlist.name}
-                  className="w-48 h-48"
-                />
-                <p className="text-white text-center py-2">{playlist.name}</p>
-              </div>
-            ))}
-          </div>
+  <div className="grid grid-cols-4 gap-5 md:gap-10 mx-auto">
+    {playlistData.map((playlist, index) => (
+      <div key={index}>
+        <img
+          src={playlist.images[0].url}
+          alt={playlist.name}
+          className="w-24 h-24 md:w-48 md:h-48 mx-auto"
+        />
+        <p className="text-white text-center py-2">{playlist.name}</p>
       </div>
+    ))}
+  </div>
+</div>
     </div>
   );
 }
