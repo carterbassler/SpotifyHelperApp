@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useSpotify from "../hooks/useSpotify";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 type Props = {};
 
@@ -109,3 +109,20 @@ function Profile({}: Props) {
 }
 
 export default Profile;
+
+export async function getServerSideProps(context : any) {
+    const session = await getSession(context);
+  
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      }
+    }
+  
+    return {
+      props: {}, // will be passed to the page component as props
+    }
+  }

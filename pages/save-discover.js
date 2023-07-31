@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import useSpotify from "../hooks/useSpotify";
 import Popup from "../components/Popup";
 import SpringModal from "../components/SpringModal";
+import { getSession} from "next-auth/react";
 
 function HomeScreen() {
   const spotifyApi = useSpotify();
@@ -32,3 +33,20 @@ function HomeScreen() {
 }
 
 export default HomeScreen;
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+  
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      }
+    }
+  
+    return {
+      props: {}, // will be passed to the page component as props
+    }
+  }

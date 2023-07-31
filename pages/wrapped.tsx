@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import useSpotify from "../hooks/useSpotify";
+import { useRouter } from "next/router";
 
 type Props = {};
 
@@ -62,6 +63,7 @@ function Wrapped({}: Props) {
   const [topArtists, setTopArtists] = useState<Artist[]>([]);
   const [topTracks, setTopTracks] = useState<Track[]>([]);
   const [view, setView] = useState("artists");
+  const router = useRouter();
   useEffect(() => {
     if (spotifyApi.getAccessToken) {
       spotifyApi.getMyTopArtists({ limit: 32, offset: 0 }).then(
@@ -73,7 +75,7 @@ function Wrapped({}: Props) {
           console.log("Something went wrong!", err);
         }
       );
-      spotifyApi.getMyTopTracks({ limit: 50, offset: 0 }).then(
+      spotifyApi.getMyTopTracks({ limit: 32, offset: 0 }).then(
         function (data: SpotifyResponseTracks) {
           let tracks = data.body.items;
           setTopTracks(tracks);
@@ -126,27 +128,35 @@ function Wrapped({}: Props) {
           <div className="flex flex-col">
             {topTracks.map((track, index) => (
               <div key={index} className="flex justify-center w-full pb-2">
-              <div className="flex justify-between items-center w-4/5">
-                <div className="flex items-center">
-                  <img
-                    src={track.album.images[0].url}
-                    alt={track.name}
-                    className="w-24 h-24 md:w-32 md:h-32 mx-5"
-                  />
-                  <div className="flex flex-col">
-                    <h2 className="text-sm md:text-base text-white">{track.name}</h2>
-                    <div className="flex flex-row">
-                      <h2 className="text-sm md:text-base text-white">{track.artists[0].name}</h2>
-                      <h2>.</h2>
-                      <h2 className="text-sm md:text-base text-white">{track.album.name}</h2>
+                <div className="flex justify-between items-center w-4/5">
+                  <div className="flex items-center">
+                    <img
+                      src={track.album.images[0].url}
+                      alt={track.name}
+                      className="w-24 h-24 md:w-32 md:h-32 mx-5"
+                    />
+                    <div className="flex flex-col">
+                      <h2 className="text-sm md:text-base text-white">
+                        {track.name}
+                      </h2>
+                      <div className="flex flex-row">
+                        <h2 className="text-sm md:text-base text-white">
+                          {track.artists[0].name}
+                        </h2>
+                        <h2>.</h2>
+                        <h2 className="text-sm md:text-base text-white">
+                          {track.album.name}
+                        </h2>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-center">
-                  <h2 className="text-sm md:text-base text-white">{formatDuration(Number(track.duration_ms))}</h2>
+                  <div className="flex items-center">
+                    <h2 className="text-sm md:text-base text-white">
+                      {formatDuration(Number(track.duration_ms))}
+                    </h2>
+                  </div>
                 </div>
               </div>
-            </div>
             ))}
           </div>
         )}
@@ -156,3 +166,20 @@ function Wrapped({}: Props) {
 }
 
 export default Wrapped;
+
+export async function getServerSideProps(context : any) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {}, // will be passed to the page component as props
+  }
+}
