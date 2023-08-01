@@ -90,7 +90,7 @@ function Profile({}: Props) {
         </div> */}
       </div>
       <h2 className="text-2xl text-white p-5">Playlists</h2>
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-10">
   <div className="grid grid-cols-4 gap-5 md:gap-10 mx-auto">
     {playlistData.map((playlist, index) => (
       <div key={index}>

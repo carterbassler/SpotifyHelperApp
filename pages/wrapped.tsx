@@ -90,7 +90,7 @@ function Wrapped({}: Props) {
   return (
     <div className="flex flex-col h-screen bg-[#1A1A1D] justify-start items-center overflow-y-scroll md:scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-green-500 pt-10">
       <div className="flex justify-center items-center w-4/5 text-white py-8">
-        <h2 className="text-2xl md:text-3xl font-bold mr-auto ml-4">
+        <h2 className="text-xl md:text-3xl font-bold mr-auto ml-4">
           Anytime Wrapped
         </h2>
         <button
@@ -110,17 +110,19 @@ function Wrapped({}: Props) {
           Top Tracks
         </button>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-10">
         {view === "artists" ? (
-          <div className="grid grid-cols-4 gap-10 md:gap-20 mx-auto">
+          <div className="grid grid-cols-3 md:grid-cols-4 gap-10 md:gap-20 mx-auto">
             {topArtists.map((artist, index) => (
-              <div key={index}>
+              <div key={index} className="flex flex-col items-center">
                 <img
                   src={artist.images[0].url}
                   alt={artist.name}
-                  className="w-24 h-24 md:w-48 md:h-48 rounded-full hover:rounded-3xl transition-all ease-in duration-300 cursor-pointer"
+                  className="w-24 h-24 md:w-48 md:h-48 rounded-full"
                 />
-                <p className="text-white text-center py-2">{artist.name}</p>
+                <p className="text-sm md:text-base text-white text-center py-2">
+                  {artist.name}
+                </p>
               </div>
             ))}
           </div>
@@ -167,19 +169,19 @@ function Wrapped({}: Props) {
 
 export default Wrapped;
 
-export async function getServerSideProps(context : any) {
+export async function getServerSideProps(context: any) {
   const session = await getSession(context);
 
   if (!session) {
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
-    }
+    };
   }
 
   return {
     props: {}, // will be passed to the page component as props
-  }
+  };
 }
